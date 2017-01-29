@@ -1,0 +1,22 @@
+.body-wrapper {
+
+
+   background: -webkit-gradient(linear, left top, right top, color-stop(0%, transparent), color-stop(50%,#fff), color-stop(100%,transparent)); /* Chrome, Safari4+ */
+   background: -webkit-linear-gradient(left, transparent 0%,#fff 50%,transparent 100%); /* Chrome10+, Safari5.1+ */
+   background: -moz-linear-gradient(left, transparent 0%,#fff 50%,transparent 100%);    /* FF3.6+ */
+   background: linear-gradient(to left, transparent 0%,#fff 50%,transparent 100%);
+   background:#01a99c;
+}
+.actionable-container {
+    margin: 120px auto 180px auto;
+    max-width: 600px;
+    background-color:white;
+    border: solid black 1px;
+    height: 1500px;
+}
+.video-editor {
+  margin: 0 auto
+}
+h1, h3,body {
+  text-align: center;
+}
