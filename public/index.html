@@ -115,16 +115,18 @@
 
 
           <form>
-            <button type="button" id="set-start-button" onclick="setStartTime()">
-              Set Start Time
-            </button>
-            <button type="button" id="set-end-button" onclick="setEndTime()">
-              Set End Time
-            </button>
+
             <p>Set Duration</p>
           <input type="range" min="0" max="15" name="gfy-range" id="gfy-range"/>
           <input type="text" placeholder="start" id="startInput"/>
-          <input type="text" placeholder="end" id="stopInput"/>
+          <input type="text" placeholder="end" id="stopInput"/><br>
+          <button type="button" id="set-start-button" onclick="setStartTime()">
+            Set Start Time
+          </button>
+          <button type="button" id="set-end-button" onclick="setEndTime()">
+            Set End Time
+          </button>
+          <br><br>
           <button type="button" value="Create Gfy" onclick="createGfy()">
             Create Gfy
           </button>
@@ -135,6 +137,40 @@
       </div>
 
      <div id="imageDiv">
+
+       <button onclick="clickybutton()" >Click to add new Row</button>
+
+     <input id="urlInput">url</input>
+     <input id="TextInput">TEXTY</input>
+     <input id="columnGen" value="2">Columns</input>
+
+     <template id="StepTemplate">
+     <div id="draggable-element" draggable = "true">
+       <div id="imgBox" draggable="false">
+         <img src=""></img>
+       </div>
+       <textarea id="txtBox" class="txtBox">Hello</textarea>
+     </div>
+     </template>
+
+
+     <table id="our_table">
+     </table>
+       <tr>
+       <td></td>
+       <td></td>
+     </tr>
+     <tr>
+       <td></td>
+       <td></td>
+     </tr>
+     	<script src="autosize.min.js"></script>
+       <script src="new_drag.js"></script>
+
+
+       <table id="tblSample" border="1">
+
+
 
      </div>
 
