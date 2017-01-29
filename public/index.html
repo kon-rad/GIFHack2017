@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Gif Notes</title>
+  <title>GifNotes</title>
 
   <link rel="shortcut icon" href="img/logo.png" type="image/png">
 
@@ -36,15 +36,12 @@
   <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- Handlebars CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.js"></script>
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script> -->
 
   <!-- playerjs CDN -->
   <script type="text/javascript" src="//cdn.embed.ly/player-0.0.12.min.js"></script>
 
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Karla|Oxygen" rel="stylesheet">
   <link rel="stylesheet" href
   ="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href
@@ -94,7 +91,7 @@
   <div class="actionable-container">
     <div class="content-inner">
       <div class="title-wrapper">
-        <h1>Gif Notes</h1>
+        <h1>GifNotes</h1>
         <h3>Make and Share gif notes of your favorite videos</h3>
         <p>Our mission is to stream line the creation and integration of Gif's of videos and saving
         them in the form of a single page note for the purpose of
@@ -127,7 +124,7 @@
             Set End Time
           </button>
           <br><br>
-          <button type="button" value="Create Gfy" onclick="createGfy()">
+          <button id="create-gfy-button" type="button" value="Create Gfy" onclick="createGfy()">
             Create Gfy
           </button>
         </form>
@@ -141,34 +138,22 @@
        <button onclick="clickybutton()" >Click to add new Row</button>
 
      <input id="urlInput">url</input>
-     <input id="TextInput">TEXTY</input>
-     <input id="columnGen" value="2">Columns</input>
 
      <template id="StepTemplate">
-     <div id="draggable-element" draggable = "true">
+     <div id="draggable-element" class="draggable-element" draggable = "true">
        <div id="imgBox" draggable="false">
          <img src=""></img>
        </div>
-       <textarea id="txtBox" class="txtBox">Hello</textarea>
+       <textarea id="txtBox" class="txtBox"></textarea>
      </div>
      </template>
 
 
-     <table id="our_table">
+     <div id="our_table">
      </table>
-       <tr>
-       <td></td>
-       <td></td>
-     </tr>
-     <tr>
-       <td></td>
-       <td></td>
-     </tr>
-     	<script src="autosize.min.js"></script>
+
        <script src="new_drag.js"></script>
 
-
-       <table id="tblSample" border="1">
 
 
 
@@ -176,6 +161,7 @@
 
     </div>
   </div>
+</div>
 </div>
 
 </body>

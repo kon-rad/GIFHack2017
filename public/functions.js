@@ -157,24 +157,18 @@ var checkingStatus = function(n){
 		if(getGfy(n)) {
 		///	getGfy(n) != null
 			q = getGfy(n);
-			var gifwebMUrl = q.gfyItem.webmUrl
+			var gifUrl = q.gfyItem.gifUrl
       console.log(JSON.stringify(getGfy(n)));
-    console.log(gifwebMUrl);
-     gfyItem.gifwebMUrl;
+    console.log(gifUrl);
+     gfyItem.gifUrl;
 //{"gfyItem":{"gfyId":"dimuntriedgilamonster","gfyName":"DimUntriedGilamonster","gfyNumber":"716881701","webmUrl":"https://zippy.gfycat.com/DimUntriedGilamonster.webm","gifUrl":"https://giant.gfycat.com/DimUntriedGilamonster.gif","mobileUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.mp4","mobilePosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.jpg","miniUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.mp4","miniPosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.jpg","posterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-poster.jpg","thumb360Url":"https://thumbs.gfycat.com/DimUntriedGilamonster-360.mp4","thumb360PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb360.jpg","thumb100PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb100.jpg","max5mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-size_restricted.gif","max2mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-small.gif","max1mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-max-1mb.gif","gif100px":"https://thumbs.gfycat.com/DimUntriedGilamonster-100px.gif","mjpgUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster.mjpg","width":1920,"height":1080,"avgColor":"#000000","frameRate":23,"numFrames":97,"mp4Size":2599459,"webmSize":795189,"gifSize":7173845,"source":8,"createDate":1485702230,"nsfw":5,"mp4Url":"https://fat.gfycat.com/DimUntriedGilamonster.mp4","likes":0,"published":1,"dislikes":0,"extraLemmas":"","md5":"3c00157f66212e72d2d8635fa2b4affd","views":1,"tags":null,"userName":"anonymous","title":"testupload","description":"","languageCategories":null,"url":"https://www.youtube.com/watch?v=DekuSxJgpbY","domainWhitelist":[]}}
 
 
 			var img = $('<video id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
-      img.attr('src', gifwebMUrl);
+      img.attr('src', gifUrl);
       img.appendTo('#imageDiv');
 			idCount++;
 			clearInterval(checking);
-
-
-
-
-
-
 		} else {
 			console.log("Processing...");
 		}
@@ -223,20 +217,20 @@ function insertGif(gfy){
 
 
 // Draggable Table Functions
-
 var dragSrcEl = null;
 
 var cards = new Array;
 function noteTemplate () {
+	this.index = null;
 	this.url = null;
 	this.noteText = null;
 	this.row = null;
 	this.column=null;
 };
 
-var cols = document.querySelectorAll('#draggable-element');
+var cols = document.querySelectorAll('.draggable-element');
 function addListeners () {
-cols = document.querySelectorAll('#draggable-element');
+cols = document.querySelectorAll('.draggable-element');
 [].forEach.call(cols, function(col) {
   col.addEventListener('dragstart', handleDragStart, false);
   col.addEventListener('dragenter', handleDragEnter, false)
@@ -309,12 +303,11 @@ function handleDragEnd(e) {
 
 function reflow () {
 	var tableRef = document.getElementById('our_table');
-	tableRef.innerHTML = "";
+	tableRef.innerHTML = ""; //Erases the Table
 
 	for (i=0; i<cards.length; i++) {
 		var temp = cards[i];
 		var tmpl = document.getElementById('StepTemplate').content.cloneNode(true);
-		var newRow = tableRef.insertRow(tableRef.rows.length);
 		if (temp.url =="") {
 		tmpl.querySelector('#imgBox').outerHTML = ""
 		tmpl.querySelector('#txtBox').className="txtBox-textOnly";
@@ -325,10 +318,18 @@ function reflow () {
 		}
 
 		tmpl.querySelector('#txtBox').value = temp.noteText;
-		newRow.appendChild (tmpl);
+		tableRef.appendChild (tmpl);
 	}
-
 	addListeners();
+
+	//save order of divs
+	var orderIndex = tableRef.querySelectorAll('.draggable-element');
+}
+
+function saveOrder() {
+	//save order of divs
+	var orderIndex = document.querySelectorAll('.draggable-element');
+
 }
 
 function clickybutton() {
