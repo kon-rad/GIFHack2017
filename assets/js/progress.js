@@ -1,97 +1,156 @@
-// $( document ).ready(function() {
 
-(function($, document, window){
+//'e-5obm1G_FY',//
+  console.log("hi")
+var player,
+    time_update_interval = 0;
 
-  var URLS = [
-    'https://vimeo.com/88829079'
-  ];
-
-  var DATA = [];
-
-  var player = null,
-    duration = 0,
-    index = 0;
-
-  //Display the embed.
-  var display = function(obj, autoplay){
-    var ratio = ((obj.height/obj.width)*100).toPrecision(4) + '%';
-    var $div = $('<div class="flex-video"><span id="caption"></span></div>');
-    $('#result').empty();
-    $div.append(obj.html);
-    $div.css('padding-bottom', ratio);
-    $('#result').append($div);
-
-    // Set up the player.
-    player = new playerjs.Player($('iframe')[0]);
-    player.on('ready', function(){
-      player.unmute();
-
-      player.getDuration(function(d){
-        duration = d;
-      });
-
-      if (autoplay){
-        player.play();
-      }
+function onYouTubeIframeAPIReady() {
+  console.log("hi")
+    player = new YT.Player('video-placeholder', {
+        width: 600,
+        height: 400,
+        videoId: 'Xa0Q0J5tOP0',
+        playerVars: {
+            color: 'white',
+            playlist: 'taJ60kskkns,FG0fTKAqZ5g'
+        },
+        events: {
+            onReady: initialize
+        }
     });
+}
 
-    var $meter = $('.meter'),
-      $duration = $('.duration'),
-      $currentTime = $('.current-time');
+function initialize(){
 
-    // Set up the timeupdate to move the meter.
-    player.on('timeupdate', function(data){
-      $meter.css('width', ((data.seconds/data.duration) * 100) + '%');
-      $duration.text(data.duration.toFixed(1));
-      $currentTime.text(data.seconds.toFixed(1));
-    });
-  };
+    // Update the controls on load
+    updateTimerDisplay();
+    updateProgressBar();
 
-  $(document).on('ready', function(){
+    // Clear any old interval.
+    clearInterval(time_update_interval);
 
-    // Go get the embed code from Embedly.
-    $.embedly.oembed(URLS)
-      .progress(function(obj){
-        display(obj, true);
-      });
+    // Start interval to update elapsed time display and
+    // the elapsed part of the progress bar every second.
+    time_update_interval = setInterval(function () {
+        updateTimerDisplay();
+        updateProgressBar();
+    }, 1000);
 
-    // Set up the progress bar are the top of the page.
-    var $progress = $('.progress'),
-      $duration = $('.duration'),
-      $currentTime = $('.current-time');
 
-    // On progress click, seek to a position.
-    $progress.on('click', function(e){
-      var percent = ((e.pageX-$progress.offset().left)/$progress.width());
-      var seek = percent*duration;
-      $('.meter').css('width', percent*100 + '%');
-      player.setCurrentTime(seek);
-    });
+    $('#volume-input').val(Math.round(player.getVolume()));
+}
 
-    // Set up the expand animation.
-    var animateUp = function(){
-      $(this).animate({
-        height:5,
-        duration:10
-      }, function(){
-        $progress.removeClass('open');
-        $progress.one('mouseenter', animateDown);
-      });
-    };
 
-    var animateDown = function(){
-      $(this).animate({
-        height:20,
-        duration:10
-      }, function(){
-        $progress.addClass('open');
-        $progress.one('mouseleave', animateUp);
-      });
-    };
+// This function is called by initialize()
+function updateTimerDisplay(){
+    // Update current time text display.
+    $('#current-time').text(formatTime( player.getCurrentTime() ));
+    $('#duration').text(formatTime( player.getDuration() ));
+}
 
-    $progress.one('mouseenter', animateDown);
-  });
 
-})(jQuery, document, window);
-//
-// });
+// This function is called by initialize()
+function updateProgressBar(){
+    // Update the value of our progress bar accordingly.
+    $('#progress-bar').val((player.getCurrentTime() / player.getDuration()) * 100);
+}
+
+
+// Progress bar
+
+$('#progress-bar').on('mouseup touchend', function (e) {
+
+    // Calculate the new time for the video.
+    // new time in seconds = total duration in seconds * ( value of range input / 100 )
+    var newTime = player.getDuration() * (e.target.value / 100);
+
+    // Skip video to new time.
+    player.seekTo(newTime);
+
+});
+
+
+// Playback
+
+$('#play').on('click', function () {
+    player.playVideo();
+});
+
+
+$('#pause').on('click', function () {
+    player.pauseVideo();
+});
+
+
+// Sound volume
+
+
+$('#mute-toggle').on('click', function() {
+    var mute_toggle = $(this);
+
+    if(player.isMuted()){
+        player.unMute();
+        mute_toggle.text('volume_up');
+    }
+    else{
+        player.mute();
+        mute_toggle.text('volume_off');
+    }
+});
+
+$('#volume-input').on('change', function () {
+    player.setVolume($(this).val());
+});
+
+
+// Other options
+
+
+$('#speed').on('change', function () {
+    player.setPlaybackRate($(this).val());
+});
+
+$('#quality').on('change', function () {
+    player.setPlaybackQuality($(this).val());
+});
+
+
+// Playlist
+
+$('#next').on('click', function () {
+    player.nextVideo()
+});
+
+$('#prev').on('click', function () {
+    player.previousVideo()
+});
+
+
+// Load video
+
+$('.thumbnail').on('click', function () {
+
+    var url = $(this).attr('data-video-id');
+
+    player.cueVideoById(url);
+
+});
+
+
+// Helper Functions
+
+function formatTime(time){
+    time = Math.round(time);
+
+    var minutes = Math.floor(time / 60),
+        seconds = time - minutes * 60;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ":" + seconds;
+}
+
+
+$('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+});

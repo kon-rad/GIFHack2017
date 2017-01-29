@@ -20,3 +20,10 @@
 h1, h3,body {
   text-align: center;
 }
+#video-placeholder{
+    max-width: 35%;
+    width: 100%;
+    position: fixed;
+    top: 130px;
+    right: 40px;
+}

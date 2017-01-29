@@ -164,9 +164,7 @@ router.route('/uploadurl')
   //res.writeHead(200,{'Content-Type':'application/json'});
   next();
 }).post(function(req,res,next){
-  var url = req.headers.url;
-  var duration = req.headers.duration;
-  var start = req.headers.start;
+  var url = req.headers.url
   console.log("url " + url);
 
   //hardcoded for testing
@@ -174,7 +172,7 @@ router.route('/uploadurl')
     fetchUrl: url,
     title: "testupload",
     private:false,
-    cut:{duration:duration,start:start}
+    cut:{duration:"4",start:"3"}
   }
 
   gfycat.upload(options).then(data => {
@@ -198,22 +196,6 @@ router.route('/checkstatus')
 
   gfycat.checkUploadStatus(id).then(data => {
     console.log('uploaded response: ', data);
-    res.json(data);
-  }).catch(err=>{
-    errorHappened(err);
-  });
-});
-
-router.route('/gfycats')
-.all(function(name) {
-  next();
-
-}).get(function(req,res,next){
-  var name = req.headers.name
-  console.log("name:" + name);
-
-  gfycat.getGyfcat(name).then(data => {
-    console.log('get gfycat: ', data);
     res.json(data);
   }).catch(err=>{
     errorHappened(err);
@@ -265,7 +247,7 @@ router.route('/gfycats')
 
 
 
-console.log(__dirname);
+
 
 app.use('/',router); //attach security router to everything that goes to /map
 
