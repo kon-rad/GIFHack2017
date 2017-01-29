@@ -23,10 +23,14 @@
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
   <script src="js/script.js"></script>
+  <script src="js/progress.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Handlebars CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.js"></script>
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script> -->
+
+  <!-- playerjs CDN -->
+  <script type="text/javascript" src="//cdn.embed.ly/player-0.0.12.min.js"></script>
 
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
@@ -41,6 +45,10 @@
   <link href="https://fonts.googleapis.com/css?family=Lato|Playfair+Display" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css" />
+
+<link href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css' rel='stylesheet' type='text/css'>
+  
+  <script src="scripts/libs/modernizr.js"></script>
 
 
 </head>
@@ -74,7 +82,7 @@
   <div class="actionable-container">
     <div class="content-inner">
       <div class="title-wrapper">
-        <h1>Memory Screen</h1>
+        <h1>Gif Board</h1>
         <h3>Make gif rich notes of your favorite videos</h3>
       </div>
 
@@ -85,6 +93,72 @@
         <input type="submit" value="Go">
       </form>
         <img src="http://placehold.it/600x400" class="video-editor">
+
+
+
+  <div class="contain-to-grid sticky">
+    <nav class="top-bar" data-topbar data-options="sticky_on: large">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">Player.js</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+          <li ><a href="https://github.com/embedly/player.js"><i class="fa fa-github"></i> Code</a></li>
+          <li class="has-dropdown">
+            <a href="#">Demos</a>
+            <ul class="dropdown">
+              <li><a href="/article.html">Article</a></li>
+              <li><a href="/progress.html">Progress</a></li>
+              <li><a href="/captions.html"> Captions</a></li>
+              <li><a href="/scroll.html">Scroll</a></li>
+              <li><a href="/resume.html">Resume</a></li>
+              <li><a href="/music.html">Music</a></li>
+              <li><a href="/soundboard.html">Soundboard</a></li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+    </nav>
+  </div>
+
+  <div class="progress">
+    <span class="meter">
+      <span class="current-time"></span>
+    </span>
+    <span class="duration"></span>
+  </div>
+
+  <div class="row content">
+    <div class="large-4 columns">
+      <h1>Progress</h1>
+      <p>
+        It's somewhat common to give users a slight visual cue of how long they have been watching a video and how long they have to go.
+      </p>
+      <p>
+        You'll notice above a progress bar moving to the right. If you hover over it, you will see time information.
+      </p>
+      <p>
+        <a class="button" target="_blank" href="https://github.com/embedly/player.js/blob/gh-pages/scripts/progress.js">Code</a>
+        <a class="button" target="_blank" href="https://github.com/embedly/player.js/blob/gh-pages/progress.html">HTML</a>
+      </p>
+    </div>
+    <div class="large-8 columns">
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script src="scripts/libs/jquery.js"></script>
+  <script src="scripts/libs/foundation.min.js"></script>
+  <script src="http://cdn.embed.ly/jquery.embedly-3.1.1.min.js"></script>
+  <script type="text/javascript" src="http://cdn.embed.ly/player-0.0.12.min.js"></script>
+  <script src="scripts/progress.js"></script>
+  <script>
+    $.embedly.defaults.key = '3ee528c9eb4b4908b268ce1ace120c92';
+    $(document).foundation();
+  </script>
 
 
       </div>

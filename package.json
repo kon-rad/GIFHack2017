@@ -1,0 +1,24 @@
+{
+  "name": "gifnotes",
+  "version": "1.0.0",
+  "description": "Gif Hacks 2017 project",
+  "main": "gfyrouter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-personal:konradgnat/GIFHack2017.git"
+  },
+  "keywords": [
+    "gif",
+    "gfycat"
+  ],
+  "author": "team",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.14.1",
+    "gfycat-sdk": "^1.0.11",
+    "https": "^1.0.0"
+  }
+}
