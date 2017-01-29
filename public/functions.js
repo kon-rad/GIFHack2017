@@ -96,9 +96,9 @@ function getTrending(){
 function createGfy() {
 console.log("hi" );
 
-	var url = "https://www.youtube.com/watch?v=DekuSxJgpbY";//$("#urlInput").val();
-	duration = "10";//$("#stopInput").val();
-	start = "5"//$("#startInput").val();
+	var url = $("#video-url-input").val(); //"https://www.youtube.com/watch?v=DekuSxJgpbY";//$("#urlInput").val();
+	duration = $("#stopInput").val();//"10";//$("#stopInput").val();
+	start = $("#startInput").val();//"5"//$("#startInput").val();
 	console.log("hi" + url + ".." + duration + ".." + start + "..");
 
 	var xhttp = new XMLHttpRequest();
@@ -115,11 +115,18 @@ console.log("hi" );
 			q = JSON.parse(xhttp.responseText);
 			var gn = q.gfyname;
 			console.log(gn);
-			checkingStatus(gn);
+			status=false;
+			//checkingStatus(gn);
+			uploadloop = setInterval(function(){
+				getGfy(gn);
+				console.log("checking");
+			},3000)
+			//setTimeout(getGfy, 20000, gn);
+			//getGfy(gn);
     };
   };
 };
-
+var uploadloop
 
 function getYT(url){
 	//https://www.youtube.com/watch?v=s70-Vsud9Vk&index=2&list=PLRqwX-V7Uu6atTSxoRiVnSuOn6JHnq2yV
@@ -150,31 +157,55 @@ function getYT(url){
 function test(text){
 	console.log(this);
 }
-var checkingStatus = function(n){
+// var checkingStatus = function(n){
+//
+// 	var checking = window.setInterval(function(){
+// 		console.log("yo");
+// 		console.log(status)
+// 		if(status) {
+// 		///	getGfy(n) != null
+// 			var gifUrl = status.gfyItem.gifUrl
+//       console.log(JSON.stringify(status));
+//     console.log(gifUrl);
+//      gfyItem.gifUrl;
+// //{"gfyItem":{"gfyId":"dimuntriedgilamonster","gfyName":"DimUntriedGilamonster","gfyNumber":"716881701","webmUrl":"https://zippy.gfycat.com/DimUntriedGilamonster.webm","gifUrl":"https://giant.gfycat.com/DimUntriedGilamonster.gif","mobileUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.mp4","mobilePosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.jpg","miniUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.mp4","miniPosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.jpg","posterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-poster.jpg","thumb360Url":"https://thumbs.gfycat.com/DimUntriedGilamonster-360.mp4","thumb360PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb360.jpg","thumb100PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb100.jpg","max5mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-size_restricted.gif","max2mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-small.gif","max1mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-max-1mb.gif","gif100px":"https://thumbs.gfycat.com/DimUntriedGilamonster-100px.gif","mjpgUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster.mjpg","width":1920,"height":1080,"avgColor":"#000000","frameRate":23,"numFrames":97,"mp4Size":2599459,"webmSize":795189,"gifSize":7173845,"source":8,"createDate":1485702230,"nsfw":5,"mp4Url":"https://fat.gfycat.com/DimUntriedGilamonster.mp4","likes":0,"published":1,"dislikes":0,"extraLemmas":"","md5":"3c00157f66212e72d2d8635fa2b4affd","views":1,"tags":null,"userName":"anonymous","title":"testupload","description":"","languageCategories":null,"url":"https://www.youtube.com/watch?v=DekuSxJgpbY","domainWhitelist":[]}}
+//
+//
+// 			var img = $('<video id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
+//       img.attr('src', gifUrl);
+//       img.appendTo('#imageDiv');
+// 			idCount++;
+// 			clearInterval(checking);
+//
+// 		} else {
+// 			console.log("Processing...");
+// 		}
+// 	}, 3000);
+//
+//
+// }
 
-	var checking = window.setInterval(function(){
-		console.log("yo");
-		if(getGfy(n)) {
-		///	getGfy(n) != null
-			q = getGfy(n);
-			var gifUrl = q.gfyItem.gifUrl
-      console.log(JSON.stringify(getGfy(n)));
-    console.log(gifUrl);
-     gfyItem.gifUrl;
-//{"gfyItem":{"gfyId":"dimuntriedgilamonster","gfyName":"DimUntriedGilamonster","gfyNumber":"716881701","webmUrl":"https://zippy.gfycat.com/DimUntriedGilamonster.webm","gifUrl":"https://giant.gfycat.com/DimUntriedGilamonster.gif","mobileUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.mp4","mobilePosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.jpg","miniUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.mp4","miniPosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.jpg","posterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-poster.jpg","thumb360Url":"https://thumbs.gfycat.com/DimUntriedGilamonster-360.mp4","thumb360PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb360.jpg","thumb100PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb100.jpg","max5mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-size_restricted.gif","max2mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-small.gif","max1mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-max-1mb.gif","gif100px":"https://thumbs.gfycat.com/DimUntriedGilamonster-100px.gif","mjpgUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster.mjpg","width":1920,"height":1080,"avgColor":"#000000","frameRate":23,"numFrames":97,"mp4Size":2599459,"webmSize":795189,"gifSize":7173845,"source":8,"createDate":1485702230,"nsfw":5,"mp4Url":"https://fat.gfycat.com/DimUntriedGilamonster.mp4","likes":0,"published":1,"dislikes":0,"extraLemmas":"","md5":"3c00157f66212e72d2d8635fa2b4affd","views":1,"tags":null,"userName":"anonymous","title":"testupload","description":"","languageCategories":null,"url":"https://www.youtube.com/watch?v=DekuSxJgpbY","domainWhitelist":[]}}
+function updateImage(gifUrl){
+	console.log("updating")
+	console.log(gifUrl)
+	var img = $('<video style="width: 700px;" id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
+	img.attr('src', gifUrl);
+	//img.appendTo('#imageDiv');
 
 
-			var img = $('<video id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
-      img.attr('src', gifUrl);
-      img.appendTo('#imageDiv');
-			idCount++;
-			clearInterval(checking);
-		} else {
-			console.log("Processing...");
-		}
-	}, 3000);
+
+	var note = new noteTemplate;
+	cards.push(note);
+	//note.noteText = "Step: " + (cards.length)
+	note.url = gifUrl;
+	reflow();
 
 
+
+
+
+	idCount++;
+	clearInterval(uploadloop);
 }
 
 
@@ -193,12 +224,13 @@ function getGfy(n){
 			//console.log(xhttp.responseText);
 			q = JSON.parse(xhttp.responseText);
 			console.log(JSON.stringify(q));
-			return true;
+			status=true;
+			updateImage(q.gfyItem.webmUrl);
 
 			//return JSON.stringify(q);
 
 		} else {
-			return false;
+			//return false;
 		}
 	};
 };
@@ -313,7 +345,7 @@ function reflow () {
 		tmpl.querySelector('#txtBox').className="txtBox-textOnly";
 		} else
 		{
-		tmpl.querySelector('#imgBox').innerHTML = '<img draggable="false" src=" ' + temp.url + ' "></img>'
+		tmpl.querySelector('#imgBox').innerHTML = '<video style="width: 100%;" loop="loop" autoplay="autoplay" src=" ' + temp.url + ' "/>'
 		tmpl.querySelector('#txtBox').className="txtBox";
 		}
 
@@ -335,7 +367,7 @@ function saveOrder() {
 function clickybutton() {
 	var note = new noteTemplate;
 	cards.push(note);
-	note.noteText = "Step: " + (cards.length)
+	//note.noteText = "Step: " + (cards.length)
 	note.url = document.getElementById('urlInput').value;
 	reflow();
 }
