@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+// $( document ).ready(function() {
 
 (function($, document, window){
 
@@ -93,5 +93,5 @@ $( document ).ready(function() {
   });
 
 })(jQuery, document, window);
-
-});
+//
+// });

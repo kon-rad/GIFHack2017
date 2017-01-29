@@ -17,8 +17,10 @@
   "author": "team",
   "license": "ISC",
   "devDependencies": {
+    "embedly": "^2.1.0",
     "express": "^4.14.1",
     "gfycat-sdk": "^1.0.11",
-    "https": "^1.0.0"
+    "https": "^1.0.0",
+    "player.js": "0.0.11"
   }
 }

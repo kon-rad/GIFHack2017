@@ -1,16 +1,16 @@
 const Gfycat = require('gfycat-sdk');
-var gfycat = new Gfycat({clientId: "2_7kmTI8", clientSecret: "9X4E1UlJMRmVUdCrqzeeZNkNCeud2oWIGHdX_PzwP2EgM7CiXrpMSgQ_kBuOd-Yc"});
+var gfycat = new Gfycat({clientId: "2_HuhRdD", clientSecret: "tHVzz9DxBGbwAdHttNmkqctsDCTveRSI87uoIPbqZs-nbmVCDpKvw6panXY59ODH"});
 var express = require('express');
 //var morgan = require('morgan');
 //var bodyParser = require('body-parser');
-var http = require('http');
+var hnpm ;
 const https = require('https');
 //var MongoClient = require('mongodb').MongoClient,
 const assert = require('assert');
 
 //var dboper = require('./operations');
 var hostname = '0.0.0.0';// normally 'localhost', but this allows others to connect on the network
-var port = 8080;
+var port = 8080;//420;
 var assets = {};
 var app = express();
 //app.set('view engine', 'ejs');
@@ -139,110 +139,71 @@ router.route('/videourl')
   https.get(options, function (http_res) {
     // initialize the container for our data
     var data = "";
-    //console.log(err);
 
     // this event fires many times, each time collecting another piece of the response
     http_res.on("data", function (chunk) {
         // append this chunk to our growing `data` var
         data += chunk;
-        //console.log(data);
+        console.log(data);
     });
 
     // this event fires *one* time, after all the `data` events/chunks have been gathered
     http_res.on("end", function () {
         // you can use res.send instead of console.log to output via express
-        console.log(data.url); //probably undefined unless I do a json parse
-        res.end(data); //If I do res.json, it doesn't work
+        console.log(data);
+        res.end(data);
     });
   });
+
+
+
+
+
 });
 
 
 
-router.route('/uploadurl')
+
+
+
+
+
+
+
+router.route('/')
 .all(function(req,res,next){
-  //res.writeHead(200,{'Content-Type':'application/json'});
-  next();
-}).post(function(req,res,next){
-  var url = req.headers.url
-  console.log("url " + url);
-
-  //hardcoded for testing
-  options={
-    fetcuUrl: url,
-    title: "testupload",
-    private:false,
-    cut:{duration:"4",start:"3"}
-  }
-
-  gfycat.upload(options).then(data => {
-    console.log('uploaded response: ', data);
-    res.json(data);
-  }).catch(err=>{
-    errorHappened(err);
-  });
-});
-
-
-
-router.route('/checkstatus')
-.all(function(req,res,next){
-  //res.writeHead(200,{'Content-Type':'application/json'});
+  res.writeHead(200,{'Content-Type':'text/plain'});
   next();
 }).get(function(req,res,next){
-  var id = req.headers.id
-  console.log("id " + id);
 
+   res.end('Get requested');
+   console.log("GET GET");
 
-  gfycat.checkUploadStatus(id).then(data => {
-    console.log('uploaded response: ', data);
-    res.json(data);
-  }).catch(err=>{
-    errorHappened(err);
+}).post(function(req,res){
+	console.log("POST GET");
+  console.log(req.headers);
+	var lat = req.headers.lat;
+	var long = req.headers.long;
+  var id = req.headers.id;
+  var timestamp = req.headers.time;
+  /*
+  if(lat!=null&&long!=null&&id!=null&&timestamp!=null){
+
+    MongoClient.connect(url, function (err, db) {
+      assert.equal(null, err);
+      //console.log("Connected correctly to server");
+      dboper.insertDocument(db, { userid:id, time: timestamp,latitude:lat,longitude:long},
+          "test", function(result){//test is the database
+            console.log(result.ops);
+            db.close();
+      });
   });
+
+
+}
+*/
+	res.end("post accepted");
 });
-
-
-
-
-
-
-
-//
-// router.route('/')
-// .all(function(req,res,next){
-//   res.writeHead(200,{'Content-Type':'text/plain'});
-//   next();
-// }).get(function(req,res,next){
-//
-//    res.end('Get requested');
-//    console.log("GET GET");
-//
-// }).post(function(req,res){
-// 	console.log("POST GET");
-//   console.log(req.headers);
-// 	var lat = req.headers.lat;
-// 	var long = req.headers.long;
-//   var id = req.headers.id;
-//   var timestamp = req.headers.time;
-//   /**
-//   if(lat!=null&&long!=null&&id!=null&&timestamp!=null){
-//
-//     MongoClient.connect(url, function (err, db) {
-//       assert.equal(null, err);
-//       //console.log("Connected correctly to server");
-//       dboper.insertDocument(db, { userid:id, time: timestamp,latitude:lat,longitude:long},
-//           "test", function(result){//test is the database
-//             console.log(result.ops);
-//             db.close();
-//       });
-//   });
-//
-//
-// }
-// **/
-// 	res.end("post accepted");
-// });
 
 
 
