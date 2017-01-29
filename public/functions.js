@@ -5,11 +5,12 @@ var q
 var n = 4;
 var idCount = 0;
 
-var myVideo=document.getElementById("thevideo");
+var myVideo = document.getElementById("thevideo");
 
 var duration = 15;
 var isLooping = false;
 var start = 0;
+var curTime;
 
 
 var theLoop; //global
@@ -26,10 +27,34 @@ myVideo.currentTime = 2.4
 note: when you input a current time, the video will move to the next keyframe before starting
 
 */
+$( document ).ready(function() {
+	$('#gfy-range').defaultValue = 15;
+	$('#gfy-range').on('change', function(){
+			$("#stopInput").val(parseInt($("#startInput").val()) + parseInt($('#gfy-range').val()));
+	});
+});
 
 function setVideoUrl(url){
+	console.log(myVideo);
 	videoUrl = url;
-	myVideo.src=videoUrl;
+	$("#thevideo").attr("src",url);
+	//myVideo.src=videoUrl;
+}
+
+function setStartTime(){
+
+		curTime = Math.floor(document.getElementById("thevideo").currentTime);
+		console.log(curTime)
+		$("#startInput").val(curTime);
+}
+
+function setEndTime(){
+	curTime = Math.floor(document.getElementById("thevideo").currentTime);
+	if (parseInt(curTime) - parseInt($("#startInput").val() > 15)){
+				$("#stopInput").val(parseInt($("#startInput").val() + 15));
+	} else {
+		$("#stopInput").val(curTime);
+	}
 }
 
 function startLoop(){
@@ -96,6 +121,8 @@ console.log("hi" );
 
 
 function getYT(url){
+	//https://www.youtube.com/watch?v=s70-Vsud9Vk&index=2&list=PLRqwX-V7Uu6atTSxoRiVnSuOn6JHnq2yV
+	url = $("#video-url-input").val();
 	yt_URL = url;
 	var xhttp = new XMLHttpRequest();
 	//xhttp.open("GET", url, true);
@@ -109,13 +136,15 @@ function getYT(url){
 			console.log(xhttp.status);
 			//console.log(xhttp.responseText);
 			q = JSON.parse(xhttp.responseText);
-			console.log(q);
-			setVideoUrl(q.url);
-			return q.url;
+			console.log(q.url);
+			var videoURL = q.url;
+			setVideoUrl(videoURL);
+			//return q.url;
 
 		};
 	};
 };
+
 
 function test(text){
 	console.log(this);
