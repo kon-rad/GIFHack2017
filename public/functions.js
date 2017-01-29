@@ -7,9 +7,9 @@ var idCount = 0;
 
 var myVideo = document.getElementById("thevideo");
 
-var duration = 15;
+var duration = (parseInt(curTime) - parseInt($("#startInput").val() > 15)) ? 15 : parseInt(curTime) - parseInt($("#startInput").val());
 var isLooping = false;
-var start = 0;
+var start = $("#startInput").val(curTime);
 var curTime;
 
 
@@ -30,6 +30,12 @@ note: when you input a current time, the video will move to the next keyframe be
 $( document ).ready(function() {
 	$('#gfy-range').defaultValue = 15;
 	$('#gfy-range').on('change', function(){
+		duration = parseInt($('#gfy-range').val());
+		if (!isLooping){
+			isLooping=true;
+			startLoop();
+
+		}
 			$("#stopInput").val(parseInt($("#startInput").val()) + parseInt($('#gfy-range').val()));
 	});
 });
@@ -46,6 +52,7 @@ function setStartTime(){
 		curTime = Math.floor(document.getElementById("thevideo").currentTime);
 		console.log(curTime)
 		$("#startInput").val(curTime);
+		start=(curTime)
 }
 
 function setEndTime(){
@@ -60,8 +67,9 @@ function setEndTime(){
 
 function startLoop(){
 	theLoop = window.setInterval(function(){
-		if (myVideo.currentTime>start+duration){
-			myVideo.currentTime=start;
+		//console.log(document.getElementById("thevideo").currentTime)
+		if (document.getElementById("thevideo").currentTime>start+duration){
+			document.getElementById("thevideo").currentTime=start;
 		}
 		},100);
 		return theLoop
@@ -97,15 +105,18 @@ function createGfy() {
 console.log("hi" );
 
 	var url = $("#video-url-input").val(); //"https://www.youtube.com/watch?v=DekuSxJgpbY";//$("#urlInput").val();
-	duration = $("#stopInput").val();//"10";//$("#stopInput").val();
-	start = $("#startInput").val();//"5"//$("#startInput").val();
+start = $("#startInput").val();//"5"//$("#startInput").val();
+	duration = $("#stopInput").val() - $("#startInput").val();//"10";//$("#stopInput").val();
+
 	console.log("hi" + url + ".." + duration + ".." + start + "..");
 
 	var xhttp = new XMLHttpRequest();
 	//xhttp.open("GET", url, true);
 	var endpoint = "/uploadurl";
 	xhttp.open("POST",endpoint);
+	xhttp.setRequestHeader("start",start);
 	xhttp.setRequestHeader("url",url);
+	xhttp.setRequestHeader("duration",duration);
 	xhttp.send();
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
