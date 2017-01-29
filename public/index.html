@@ -80,11 +80,12 @@
 
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav">
+        <li><a class="navbar-brand" href="#"><img src="img/logo.png"></a></li>
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#about">Contact</a></li>
       </ul>
-      <a class="navbar-brand" href="#"><img src="img/brand.png"></a>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
@@ -93,13 +94,15 @@
   <div class="actionable-container">
     <div class="content-inner">
       <div class="title-wrapper">
-        <h1>Gif Board</h1>
-        <h3>Make gif rich notes of your favorite videos</h3>
+        <h1>Gif Notes</h1>
+        <h3>Make and Share gif notes of your favorite videos</h3>
+        <p>Our mission is to stream line the creation and integration of Gif's of videos and saving
+        them in the form of a single page note for the purpose of improved sharing,
+        and dissemination of knowledge.</p>
       </div>
 
       <div class="video-wrapper">
         <form action="">
-          <label for="video-url-input">Enter URL</label>
         <input type="text" placeholder="Enter video URL" id="video-url-input">
         <input type="submit" value="Go">
       </form>
@@ -109,17 +112,27 @@
         	<video id="thevideo" src="https://r1---sn-p5qs7n7s.googlevideo.com/videoplayback?id=0e2db796cc340d05&amp;itag=137&amp;source=youtube&amp;requiressl=yes&amp;mm=31&amp;mn=sn-p5qs7n7s&amp;pl=17&amp;mv=m&amp;ms=au&amp;initcwndbps=11063750&amp;nh=IgpwcjAxLmlhZDI2KgkxMjcuMC4wLjE&amp;ratebypass=yes&amp;mime=video/mp4&amp;gir=yes&amp;clen=2838896&amp;lmt=1485673732243602&amp;dur=24.891&amp;mt=1485680122&amp;key=dg_yt0&amp;signature=965DC0E303C6F060A790D16679B81C954E3D1DAC.2DCFEE60D31A691D57783109EBD75E371ACE24E6&amp;upn=JEJSD9aMV7E&amp;ip=54.144.229.215&amp;ipbits=0&amp;expire=1485701870&amp;sparams=ip,ipbits,expire,id,itag,source,requiressl,mm,mn,pl,mv,ms,initcwndbps,nh,ratebypass,mime,gir,clen,lmt,dur" height="400" controls=""></video>
         </div>
 
+        <div class="gfy-creation-controls">
 
-          <form >
-          <input type="text" placeholder="enter video url" id="urlInput"/>
+
+          <form>
+            <p>Set Gfycat lenght</p>
+          <input type="range" min="0" max="15" name="gfy-range" id="gfy-range"/>
           <input type="text" placeholder="start" id="startInput"/>
           <input type="text" placeholder="end" id="stopInput"/>
-          <button type="button"  value="Create Gfy" onclick="createGfy()">
+          <button type="button" value="Create Gfy" onclick="createGfy()">
             Create Gfy
           </button>
         </form>
 
       </div>
+
+      </div>
+
+     <div id="imageDiv">
+
+     </div>
+
     </div>
   </div>
 </div>

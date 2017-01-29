@@ -27,3 +27,15 @@ h1, h3,body {
     top: 130px;
     right: 40px;
 }
+#video-url-input {
+  width: 70%;
+  margin-bottom: 40px;
+}
+#gfy-range {
+  width: 33%;
+  margin: 20px auto;
+
+}
+.gfy-creation-controls {
+  margin: 60px 0px 80px 0px;
+}
