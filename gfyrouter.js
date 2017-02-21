@@ -8,7 +8,7 @@ const https = require('https');
 const assert = require('assert');
 
 var hostname = '0.0.0.0';
-var port = 8080;
+var port = process.env.PORT || 8080;
 var assets = {};
 var app = express();
 
