@@ -1,22 +1,18 @@
 const Gfycat = require('gfycat-sdk');
 var gfycat = new Gfycat({clientId: "2_7kmTI8", clientSecret: "9X4E1UlJMRmVUdCrqzeeZNkNCeud2oWIGHdX_PzwP2EgM7CiXrpMSgQ_kBuOd-Yc"});
 var express = require('express');
-//var morgan = require('morgan');
-//var bodyParser = require('body-parser');
+
 var http = require('http');
 const https = require('https');
-//var MongoClient = require('mongodb').MongoClient,
+
 const assert = require('assert');
 
-//var dboper = require('./operations');
-var hostname = '0.0.0.0';// normally 'localhost', but this allows others to connect on the network
+var hostname = '0.0.0.0';
 var port = 8080;
 var assets = {};
 var app = express();
-//app.set('view engine', 'ejs');
 
 var router = express.Router();
-//var url = 'mongodb://localhost:27017/test';
 
 //mongo stuff goes here
 
