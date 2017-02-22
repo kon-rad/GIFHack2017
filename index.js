@@ -1,4 +1,4 @@
-const Gfycat = require('/Users/konradgnat/Documents/sites/GIFHack2017/GifHack/node_modules/gfycat-sdk');
+const Gfycat = require('gfycat-sdk');
 var gfycat = new Gfycat({clientId: "2_7kmTI8", clientSecret: "9X4E1UlJMRmVUdCrqzeeZNkNCeud2oWIGHdX_PzwP2EgM7CiXrpMSgQ_kBuOd-Yc"});
 var express = require('express');
 

@@ -27,5 +27,8 @@
     "gfycat-sdk": "^1.0.11",
     "https": "^1.0.0",
     "player.js": "0.0.11"
+  },
+  "dependencies": {
+    "gfycat-sdk": "^1.0.11"
   }
 }
