@@ -24,9 +24,19 @@ var router = express.Router();
 //   console.log('listening on', http.address().port);
 // });
 
-app.listen(process.env.PORT, '0.0.0.0', function(err) {
-  console.log("Started listening on %s", app.url);
+// app.listen(process.env.PORT || 8080, '0.0.0.0', function(err) {
+//   console.log("Started listening on %s", app.url);
+// });
+
+console.log(__dirname);
+
+app.use('/',router); //attach security router to everything that goes to /map
+
+app.use(express.static(__dirname+'/public')); //allow access to the .html files in public
+app.listen(port,hostname,function(){
+  console.log("Server running at http://${hostname}:${port}/");
 });
+
 
 //mongo stuff goes here
 
@@ -276,14 +286,7 @@ router.route('/gfycats')
 
 
 
-console.log(__dirname);
 
-app.use('/',router); //attach security router to everything that goes to /map
-
-app.use(express.static(__dirname+'/public')); //allow access to the .html files in public
-app.listen(port,hostname,function(){
-  console.log("Server running at http://${hostname}:${port}/");
-});
 
 /*
 var server = http.createServer(function(request, response) {
