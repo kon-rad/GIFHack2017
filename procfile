@@ -1,1 +1,1 @@
-web: node gfyrouter.js
+web: node index.js
