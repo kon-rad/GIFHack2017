@@ -4,7 +4,7 @@
   "description": "Gif Hacks 2017 project",
   "main": "gfyrouter.js",
   "scripts": {
-    "start": "node index.js",
+    // "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +17,10 @@
   ],
   "author": "team",
   "license": "ISC",
+  "Dependencies": {
+    "gfycat-sdk": "^1.0.11",
+    "express": "^4.14.1"
+  },
   "devDependencies": {
     "embedly": "^2.1.0",
     "express": "^4.14.1",
