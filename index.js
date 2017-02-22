@@ -24,6 +24,10 @@ var router = express.Router();
 //   console.log('listening on', http.address().port);
 // });
 
+app.listen(process.env.PORT, '0.0.0.0', function(err) {
+  console.log("Started listening on %s", app.url);
+});
+
 //mongo stuff goes here
 
 gfycat.authenticate((err, data) => {
