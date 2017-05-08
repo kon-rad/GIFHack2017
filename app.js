@@ -52,7 +52,7 @@ gfycat.authenticate((err, data) => {
 
 function errorHappened(err){
 
-  console.log("ERROR!!!!!!!!!!!!!!!!!!");
+  console.log("ERROR!");
   console.log(err);
 }
 

@@ -57,7 +57,10 @@ button {
 .title-wrapper {
   margin: 14px 20px 14px 20px;
 }
-
+.video-player {
+  width: 100%;
+  height: auto;
+}
 
 
 /*DRAGGABLE TABLE STYLES*/
