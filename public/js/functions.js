@@ -372,7 +372,6 @@ function reflow () {
 function saveOrder() {
 	//save order of divs
 	var orderIndex = document.querySelectorAll('.draggable-element');
-
 }
 
 function clickybutton() {
