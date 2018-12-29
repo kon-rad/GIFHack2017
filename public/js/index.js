@@ -1,7 +1,5 @@
 
-
-console.log("running");
-var q
+var q;
 var n = 4;
 var idCount = 0;
 
@@ -99,13 +97,10 @@ function getTrending(){
 	};
 };
 
-
-
 function createGfy() {
-console.log("hi" );
 
 	var url = $("#video-url-input").val(); //"https://www.youtube.com/watch?v=DekuSxJgpbY";//$("#urlInput").val();
-start = $("#startInput").val();//"5"//$("#startInput").val();
+  start = $("#startInput").val();//"5"//$("#startInput").val();
 	duration = $("#stopInput").val() - $("#startInput").val();//"10";//$("#stopInput").val();
 
 	console.log("hi" + url + ".." + duration + ".." + start + "..");
@@ -137,7 +132,7 @@ start = $("#startInput").val();//"5"//$("#startInput").val();
     };
   };
 };
-var uploadloop
+var uploadloop;
 
 function getYT(url){
 	//https://www.youtube.com/watch?v=s70-Vsud9Vk&index=2&list=PLRqwX-V7Uu6atTSxoRiVnSuOn6JHnq2yV
@@ -201,19 +196,12 @@ function updateImage(gifUrl){
 	console.log(gifUrl)
 	var img = $('<video style="width: 700px;" id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
 	img.attr('src', gifUrl);
-	//img.appendTo('#imageDiv');
-
-
 
 	var note = new noteTemplate;
 	cards.push(note);
 	//note.noteText = "Step: " + (cards.length)
 	note.url = gifUrl;
 	reflow();
-
-
-
-
 
 	idCount++;
 	clearInterval(uploadloop);
@@ -239,7 +227,6 @@ function getGfy(n){
 			updateImage(q.gfyItem.webmUrl);
 
 			//return JSON.stringify(q);
-
 		} else {
 			//return false;
 		}
@@ -254,10 +241,6 @@ function insertGif(gfy){
 	c1='<tr><img src="'+gfy.gifUrl+'" /></tr>'
 	document.getElementById("column1").innerHTML= c1;
 }
-
-
-
-
 
 // Draggable Table Functions
 var dragSrcEl = null;
@@ -282,7 +265,6 @@ cols = document.querySelectorAll('.draggable-element');
   col.addEventListener('drop', handleDrop, false);
   col.addEventListener('dragend', handleDragEnd, false);
 });
-//autosize(document.querySelectorAll('textarea'));
 }
 
 function handleDragStart(e) {
@@ -351,13 +333,12 @@ function reflow () {
 	for (i=0; i<cards.length; i++) {
 		var temp = cards[i];
 		var tmpl = document.getElementById('StepTemplate').content.cloneNode(true);
-		if (temp.url =="") {
-		tmpl.querySelector('#imgBox').outerHTML = ""
-		tmpl.querySelector('#txtBox').className="txtBox-textOnly";
-		} else
-		{
-		tmpl.querySelector('#imgBox').innerHTML = '<video style="width: 100%;" loop="loop" autoplay="autoplay" src=" ' + temp.url + ' "/>'
-		tmpl.querySelector('#txtBox').className="txtBox";
+		if (temp.url == "") {
+			tmpl.querySelector('#imgBox').outerHTML = "";
+			tmpl.querySelector('#txtBox').className="txtBox-textOnly";
+		} else {
+			tmpl.querySelector('#imgBox').innerHTML = '<video style="width: 100%;" loop="loop" autoplay="autoplay" src=" ' + temp.url + ' "/>'
+			tmpl.querySelector('#txtBox').className="txtBox";
 		}
 
 		tmpl.querySelector('#txtBox').value = temp.noteText;
