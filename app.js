@@ -33,7 +33,6 @@ function errorHappened(err) {
 
 router.route('/getdata')
   .all(function (req, res, next) {
-    //res.writeHead(200,{'Content-Type':'application/json'});
     next();
   }).get(function (req, res, next) {
   var query = req.headers.query;
@@ -59,24 +58,20 @@ router.route('/getdata')
 
 router.route('/gfyinfo')
   .all(function (req, res, next) {
-    //res.writeHead(200,{'Content-Type':'application/json'});
     next();
   }).get(function (req, res, next) {
-  var url = req.headers.url
-  console.log("url " + url)
+  var url = req.headers.url;
+  console.log("url " + url);
   gfycat.getGifDetails({gfyId: url}).then(data => {
     console.log('gfycats', data);
     res.json(data);
   }).catch(err => {
     errorHappened(err);
   });
-
 });
-
 
 router.route('/trending')
   .all(function (req, res, next) {
-    //res.writeHead(200,{'Content-Type':'application/json'});
     next();
   }).get(function (req, res, next) {
   if (req.headers.count) {
@@ -91,18 +86,14 @@ router.route('/trending')
   }).catch(err => {
     errorHappened(err);
   });
-
 });
-
 
 router.route('/videourl')
   .all(function (req, res, next) {
-    //res.writeHead(200,{'Content-Type':'application/json'});
     next();
   }).get(function (req, res, next) {
   var url = req.headers.url
   console.log("url " + url)
-
 
   options = {
     host: 'api.gfycat.com',
@@ -114,7 +105,6 @@ router.route('/videourl')
   https.get(options, function (http_res) {
     // initialize the container for our data
     var data = "";
-    //console.log(err);
 
     // this event fires many times, each time collecting another piece of the response
     http_res.on("data", function (chunk) {
@@ -135,7 +125,6 @@ router.route('/videourl')
 
 router.route('/uploadurl')
   .all(function (req, res, next) {
-    //res.writeHead(200,{'Content-Type':'application/json'});
     next();
   }).post(function (req, res, next) {
   var url = req.headers.url;
@@ -163,7 +152,6 @@ router.route('/uploadurl')
 
 router.route('/checkstatus')
   .all(function (req, res, next) {
-    //res.writeHead(200,{'Content-Type':'application/json'});
     next();
   }).get(function (req, res, next) {
   var id = req.headers.id

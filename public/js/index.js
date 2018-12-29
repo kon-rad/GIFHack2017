@@ -16,7 +16,7 @@ var theLoop; //global
 var videoUrl; //the is the source of the raw video;"r---sn...."
 var yt_URL; //"youtube.com/..."
 
-$( document ).ready(function() {
+$(document).ready(function() {
 	gfyRange.defaultValue = 15;
 	gfyRange.on('change', function(){
 		duration = parseInt(gfyRange.val());
@@ -30,7 +30,6 @@ $( document ).ready(function() {
 });
 
 function setVideoUrl(url){
-	console.log(myVideo);
 	videoUrl = url;
 	$("#thevideo").attr("src",url);
 }
@@ -44,7 +43,6 @@ function setStartTime(){
 
 function setEndTime(){
 	curTime = Math.floor(document.getElementById("thevideo").currentTime);
-	console.log(parseInt(curTime) + " and " + parseInt(startInput.val() ))
 	if (parseInt(curTime) - parseInt(startInput.val() > 15)){
 				$("#stopInput").val(parseInt(startInput.val() + 15));
 	} else {
@@ -54,12 +52,12 @@ function setEndTime(){
 
 function startLoop(){
 	theLoop = window.setInterval(function(){
-		//console.log(document.getElementById("thevideo").currentTime)
 		if (document.getElementById("thevideo").currentTime>start+duration){
 			document.getElementById("thevideo").currentTime=start;
 		}
-		},100);
-		return theLoop
+	}, 100);
+
+	return theLoop
 }
 
 function stopLoop(){
@@ -82,7 +80,6 @@ function getTrending(){
 }
 
 function createGfy() {
-
   const url = $("#video-url-input").val();
   start = startInput.val();
 	duration = $("#stopInput").val() - startInput.val();
@@ -103,6 +100,8 @@ function createGfy() {
 			status=false;
 
       // this loop checks too see if gif is ready to fetch from gfycat
+			// TODO: Make function that uses the check gfycat endpoint
+			// TODO: Create indication for user that Gif is being created
 			uploadloop = setInterval(function(){
 				getGfy(gn);
 				console.log("checking");
@@ -125,9 +124,9 @@ function getYT(url){
 			q = JSON.parse(xhttp.responseText);
 			var videoURL = q.url;
 			setVideoUrl(videoURL);
-		};
+		}
 	};
-};
+}
 
 // adds gif to display
 function updateImage(gifUrl){
@@ -136,7 +135,6 @@ function updateImage(gifUrl){
 
 	const note = new NoteTemplate;
 	cards.push(note);
-	//note.noteText = "Step: " + (cards.length)
 	note.url = gifUrl;
 	reflow();
 
@@ -161,8 +159,6 @@ function getGfy(n){
 
 			// gif is displayed
 			updateImage(q.gfyItem.webmUrl);
-		} else {
-			//return false;
 		}
 	};
 }
@@ -237,7 +233,7 @@ function handleDrop(e) {
   }
 
   // Don't do anything if dropping the same column we're dragging.
-  if (dragSrcEl != this) {
+  if (dragSrcEl !== this) {
     // Set the source column's HTML to the HTML of the column we dropped on.
 
 	var DraggedText = dragSrcEl.querySelector('#txtBox').value
@@ -267,7 +263,7 @@ function reflow () {
 	for (i=0; i<cards.length; i++) {
 		var temp = cards[i];
 		var tmpl = document.getElementById('StepTemplate').content.cloneNode(true);
-		if (temp.url == "") {
+		if (temp.url === "") {
 			tmpl.querySelector('#imgBox').outerHTML = "";
 			tmpl.querySelector('#txtBox').className="txtBox-textOnly";
 		} else {
