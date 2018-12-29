@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>GifNotes</title>
+
+    <link rel="shortcut icon" href="images/logo.png" type="image/png">
+
+    <meta name="description" content="Gif Hack 2017 Memory Screen Note Taking Application">
+    <meta name="keywords" content="Gif Hack 2017 Memory Screen Note Taking Applicationp">
+    <meta name="author" content="">
+
+    <meta name="robots" content="index, follow">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Karla|Oxygen" rel="stylesheet">
+    <link rel="stylesheet" href
+            ="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href
+            ="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Cabin|Lora|Francois+One|Ubuntu"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Playfair+Display" rel="stylesheet">
+
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="//cdn.embed.ly/player-0.0.12.min.js"></script>
+
+    <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- playerjs CDN -->
+    <script type="text/javascript" src="//cdn.embed.ly/player-0.0.12.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body class="body-wrapper">
+
+<nav class="navbar transparent navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-brand" href="#"><img class="logo" src="images/logo.png"></a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="display-wrapper">
+    <div class="actionable-container">
+        <div class="content-inner">
+            <div class="title-wrapper">
+                <h1>GifNotes</h1>
+                <h3>Make and Share GifNotes of your favorite videos</h3>
+                <p>Our mission is to stream line the creation and integration of Gifs of videos and saving
+                    them in the form of a single page note for the purpose of
+                    dissemination and increased comprehension of knowledge.</p>
+            </div>
+
+            <div class="video-wrapper">
+                <form action="">
+                    <input type="text" placeholder="Enter video URL" id="video-url-input">
+                    <button onclick="getYT()" type="button" id="get-video">Go</button>
+                </form>
+
+                <div>
+                    <video class="video-player" id="thevideo"
+                           src="https://r5---sn-n4v7kne7.googlevideo.com/videoplayback?source=youtube&ei=5xmOWMqZKoe18wTr0624Dg&requiressl=yes&lmt=1405672393741065&sparams=clen,dur,ei,expire,gir,id,initcwndbps,ip,ipbits,ipbypass,itag,lmt,mime,mm,mn,ms,mv,nh,pl,ratebypass,requiressl,source,upn&ipbits=0&upn=6C1_Dbs1J8o&signature=417E79475808772C25303043AE64996A8C69F594.6B1AB7FF2D3ADDCFDB27F744C4131FE030DF69CC&id=o-ANlKv9rNh7wrFD8IEL2wEacRPjDFtxp2iyEnO01P-3GQ&gir=yes&ip=2603:3024:1811:ab00:8d59:86a0:932:693e&pl=32&expire=1485729351&mime=video%2Fmp4&key=cms1&itag=18&ratebypass=yes&clen=4464726&dur=94.389&redirect_counter=1&req_id=5182db712cbea3ee&cms_redirect=yes&ipbypass=yes&mm=31&mn=sn-n4v7kne7&ms=au&mt=1485707724&mv=m&nh=IgpwZjAyLnNqYzA3Kg0yMDAxOjU1OTo6YzQx"
+                           height="400" controls=""></video>
+                </div>
+
+                <div class="gfy-creation-controls">
+
+                    <form>
+
+                        <p>Set Duration</p>
+                        <input type="range" min="0" max="15" name="gfy-range" id="gfy-range"/>
+                        <input type="text" placeholder="start" id="startInput"/>
+                        <input type="text" placeholder="end" id="stopInput"/><br>
+                        <button type="button" id="set-start-button" onclick="setStartTime()">
+                            Set Start Time
+                        </button>
+                        <button type="button" id="set-end-button" onclick="setEndTime()">
+                            Set End Time
+                        </button>
+                        <br><br>
+                        <button id="create-gfy-button" type="button" value="Create Gfy" onclick="createGfy()">
+                            Create GIF
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="imageDiv">
+                <template id="StepTemplate">
+                    <div id="draggable-element" class="draggable-element" draggable="true">
+                        <div id="imgBox" draggable="false">
+                            <video style="width: 100%;" loop="loop" autoplay="autoplay" src=""/>
+                        </div>
+                        <textarea id="txtBox" class="txtBox"></textarea>
+                    </div>
+                </template>
+                <div id="our_table">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
