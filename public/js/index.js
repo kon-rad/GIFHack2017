@@ -3,38 +3,29 @@ var q;
 var n = 4;
 var idCount = 0;
 
+var curTime = 0;
 var myVideo = document.getElementById("thevideo");
-
-var duration = (parseInt(curTime) - parseInt($("#startInput").val() > 15)) ? 15 : parseInt(curTime) - parseInt($("#startInput").val());
+const startInput = $("#startInput");
+const gfyRange = $('#gfy-range');
+var duration = (parseInt(curTime) - parseInt(startInput.val() > 15)) ? 15 : parseInt(curTime) - parseInt(startInput.val());
 var isLooping = false;
-var start = $("#startInput").val(curTime);
-var curTime;
+var start = startInput.val(curTime);
 
 
 var theLoop; //global
 var videoUrl; //the is the source of the raw video;"r---sn...."
 var yt_URL; //"youtube.com/..."
 
-/*video controls:
-myVideo is the video
-common controls:
-myVideo.play()
-myVideo.pause()
-myVideo.currentTime
-myVideo.currentTime = 2.4
-note: when you input a current time, the video will move to the next keyframe before starting
-
-*/
 $( document ).ready(function() {
-	$('#gfy-range').defaultValue = 15;
-	$('#gfy-range').on('change', function(){
-		duration = parseInt($('#gfy-range').val());
+	gfyRange.defaultValue = 15;
+	gfyRange.on('change', function(){
+		duration = parseInt(gfyRange.val());
 		if (!isLooping){
 			isLooping=true;
 			startLoop();
 
 		}
-			$("#stopInput").val(parseInt($("#startInput").val()) + parseInt($('#gfy-range').val()));
+			$("#stopInput").val(parseInt(startInput.val()) + parseInt(gfyRange.val()));
 	});
 });
 
@@ -42,22 +33,20 @@ function setVideoUrl(url){
 	console.log(myVideo);
 	videoUrl = url;
 	$("#thevideo").attr("src",url);
-	//myVideo.src=videoUrl;
 }
 
 function setStartTime(){
 
 		curTime = Math.floor(document.getElementById("thevideo").currentTime);
-		console.log(curTime)
-		$("#startInput").val(curTime);
+		startInput.val(curTime);
 		start=(curTime)
 }
 
 function setEndTime(){
 	curTime = Math.floor(document.getElementById("thevideo").currentTime);
-	console.log(parseInt(curTime) + " and " + parseInt($("#startInput").val() ))
-	if (parseInt(curTime) - parseInt($("#startInput").val() > 15)){
-				$("#stopInput").val(parseInt($("#startInput").val() + 15));
+	console.log(parseInt(curTime) + " and " + parseInt(startInput.val() ))
+	if (parseInt(curTime) - parseInt(startInput.val() > 15)){
+				$("#stopInput").val(parseInt(startInput.val() + 15));
 	} else {
 		$("#stopInput").val(curTime);
 	}
@@ -79,125 +68,73 @@ function stopLoop(){
 
 function getTrending(){
 	var xhttp = new XMLHttpRequest();
-	//xhttp.open("GET", url, true);
 	var endpoint = "/trending";
 	xhttp.open("GET",endpoint);
 	xhttp.setRequestHeader("count",n);
 	n+=1;
 	xhttp.send();
 	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-			console.log(xhttp.readyState);
-			console.log(xhttp.status);
-			//console.log(xhttp.responseText);
+		if (xhttp.readyState === 4 && xhttp.status === 200) {
 			q = JSON.parse(xhttp.responseText);
 			insertGif(q);
-
-		};
+		}
 	};
-};
+}
 
 function createGfy() {
 
-	var url = $("#video-url-input").val(); //"https://www.youtube.com/watch?v=DekuSxJgpbY";//$("#urlInput").val();
-  start = $("#startInput").val();//"5"//$("#startInput").val();
-	duration = $("#stopInput").val() - $("#startInput").val();//"10";//$("#stopInput").val();
+  const url = $("#video-url-input").val();
+  start = startInput.val();
+	duration = $("#stopInput").val() - startInput.val();
 
-	console.log("hi" + url + ".." + duration + ".." + start + "..");
-
-	var xhttp = new XMLHttpRequest();
-	//xhttp.open("GET", url, true);
-	var endpoint = "/uploadurl";
+	const xhttp = new XMLHttpRequest();
+	const endpoint = "/uploadurl";
 	xhttp.open("POST",endpoint);
 	xhttp.setRequestHeader("start",start);
 	xhttp.setRequestHeader("url",url);
 	xhttp.setRequestHeader("duration",duration);
 	xhttp.send();
 	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
+		if (xhttp.readyState === 4 && xhttp.status === 200) {
 			console.log(xhttp.readyState);
 			console.log(xhttp.status);
-			//console.log(xhttp.responseText);
 			q = JSON.parse(xhttp.responseText);
-			var gn = q.gfyname;
-			console.log(gn);
+			const gn = q.gfyname;
 			status=false;
-			//checkingStatus(gn);
+
+      // this loop checks too see if gif is ready to fetch from gfycat
 			uploadloop = setInterval(function(){
 				getGfy(gn);
 				console.log("checking");
-			},3000)
-			//setTimeout(getGfy, 20000, gn);
-			//getGfy(gn);
+			}, 3000)
     };
   };
 };
 var uploadloop;
 
 function getYT(url){
-	//https://www.youtube.com/watch?v=s70-Vsud9Vk&index=2&list=PLRqwX-V7Uu6atTSxoRiVnSuOn6JHnq2yV
 	url = $("#video-url-input").val();
 	yt_URL = url;
 	var xhttp = new XMLHttpRequest();
-	//xhttp.open("GET", url, true);
 	var endpoint = "/videourl";
 	xhttp.open("GET",endpoint);
 	xhttp.setRequestHeader("url",url);
 	xhttp.send();
 	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-			console.log(xhttp.readyState);
-			console.log(xhttp.status);
-			//console.log(xhttp.responseText);
+		if (xhttp.readyState === 4 && xhttp.status === 200) {
 			q = JSON.parse(xhttp.responseText);
-			console.log(q.url);
 			var videoURL = q.url;
 			setVideoUrl(videoURL);
-			//return q.url;
-
 		};
 	};
 };
 
-
-function test(text){
-	console.log(this);
-}
-// var checkingStatus = function(n){
-//
-// 	var checking = window.setInterval(function(){
-// 		console.log("yo");
-// 		console.log(status)
-// 		if(status) {
-// 		///	getGfy(n) != null
-// 			var gifUrl = status.gfyItem.gifUrl
-//       console.log(JSON.stringify(status));
-//     console.log(gifUrl);
-//      gfyItem.gifUrl;
-// //{"gfyItem":{"gfyId":"dimuntriedgilamonster","gfyName":"DimUntriedGilamonster","gfyNumber":"716881701","webmUrl":"https://zippy.gfycat.com/DimUntriedGilamonster.webm","gifUrl":"https://giant.gfycat.com/DimUntriedGilamonster.gif","mobileUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.mp4","mobilePosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mobile.jpg","miniUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.mp4","miniPosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-mini.jpg","posterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-poster.jpg","thumb360Url":"https://thumbs.gfycat.com/DimUntriedGilamonster-360.mp4","thumb360PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb360.jpg","thumb100PosterUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster-thumb100.jpg","max5mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-size_restricted.gif","max2mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-small.gif","max1mbGif":"https://thumbs.gfycat.com/DimUntriedGilamonster-max-1mb.gif","gif100px":"https://thumbs.gfycat.com/DimUntriedGilamonster-100px.gif","mjpgUrl":"https://thumbs.gfycat.com/DimUntriedGilamonster.mjpg","width":1920,"height":1080,"avgColor":"#000000","frameRate":23,"numFrames":97,"mp4Size":2599459,"webmSize":795189,"gifSize":7173845,"source":8,"createDate":1485702230,"nsfw":5,"mp4Url":"https://fat.gfycat.com/DimUntriedGilamonster.mp4","likes":0,"published":1,"dislikes":0,"extraLemmas":"","md5":"3c00157f66212e72d2d8635fa2b4affd","views":1,"tags":null,"userName":"anonymous","title":"testupload","description":"","languageCategories":null,"url":"https://www.youtube.com/watch?v=DekuSxJgpbY","domainWhitelist":[]}}
-//
-//
-// 			var img = $('<video id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
-//       img.attr('src', gifUrl);
-//       img.appendTo('#imageDiv');
-// 			idCount++;
-// 			clearInterval(checking);
-//
-// 		} else {
-// 			console.log("Processing...");
-// 		}
-// 	}, 3000);
-//
-//
-// }
-
+// adds gif to display
 function updateImage(gifUrl){
-	console.log("updating")
-	console.log(gifUrl)
-	var img = $('<video style="width: 700px;" id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
+	const img = $('<video style="width: 700px;" id="gifsID + ' + idCount + '" loop="loop" autoplay="autoplay"/>'); //Equivalent: $(document.createElement('img'))
 	img.attr('src', gifUrl);
 
-	var note = new noteTemplate;
+	const note = new NoteTemplate;
 	cards.push(note);
 	//note.noteText = "Step: " + (cards.length)
 	note.url = gifUrl;
@@ -207,31 +144,28 @@ function updateImage(gifUrl){
 	clearInterval(uploadloop);
 }
 
-
+// This function tries to download gif from gfycat when it is ready
 function getGfy(n){
-	var xhttp = new XMLHttpRequest();
-	//xhttp.open("GET", url, true);
-	var endpoint = "https://api.gfycat.com/v1test/gfycats/" + n;
+	const xhttp = new XMLHttpRequest();
+	const endpoint = "https://api.gfycat.com/v1test/gfycats/" + n;
 	xhttp.open("GET",endpoint, true);
-	//xhttp.setRequestHeader("name", n);
 
 	xhttp.send();
 	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-			console.log(xhttp.readyState);
-			console.log(xhttp.status);
-			//console.log(xhttp.responseText);
+		if (xhttp.readyState === 4 && xhttp.status === 200) {
+
+		  // gif is downloaded
 			q = JSON.parse(xhttp.responseText);
 			console.log(JSON.stringify(q));
 			status=true;
-			updateImage(q.gfyItem.webmUrl);
 
-			//return JSON.stringify(q);
+			// gif is displayed
+			updateImage(q.gfyItem.webmUrl);
 		} else {
 			//return false;
 		}
 	};
-};
+}
 
 
 var group1=[];
@@ -246,7 +180,7 @@ function insertGif(gfy){
 var dragSrcEl = null;
 
 var cards = new Array;
-function noteTemplate () {
+function NoteTemplate () {
 	this.index = null;
 	this.url = null;
 	this.noteText = null;
@@ -256,22 +190,22 @@ function noteTemplate () {
 
 var cols = document.querySelectorAll('.draggable-element');
 function addListeners () {
-cols = document.querySelectorAll('.draggable-element');
-[].forEach.call(cols, function(col) {
-  col.addEventListener('dragstart', handleDragStart, false);
-  col.addEventListener('dragenter', handleDragEnter, false)
-  col.addEventListener('dragover', handleDragOver, false);
-  col.addEventListener('dragleave', handleDragLeave, false);
-  col.addEventListener('drop', handleDrop, false);
-  col.addEventListener('dragend', handleDragEnd, false);
-});
+  cols = document.querySelectorAll('.draggable-element');
+  [].forEach.call(cols, function(col) {
+    col.addEventListener('dragstart', handleDragStart, false);
+    col.addEventListener('dragenter', handleDragEnter, false)
+    col.addEventListener('dragover', handleDragOver, false);
+    col.addEventListener('dragleave', handleDragLeave, false);
+    col.addEventListener('drop', handleDrop, false);
+    col.addEventListener('dragend', handleDragEnd, false);
+  });
 }
 
 function handleDragStart(e) {
 // this / e.target is the source node.
-    this.classList.add('fadeOut');
+  this.classList.add('fadeOut');
 
-    dragSrcEl = this;
+  dragSrcEl = this;
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/html', this.innerHTML);
 }
@@ -356,7 +290,7 @@ function saveOrder() {
 }
 
 function clickybutton() {
-	var note = new noteTemplate;
+	var note = new NoteTemplate;
 	cards.push(note);
 	//note.noteText = "Step: " + (cards.length)
 	note.url = document.getElementById('urlInput').value;
