@@ -108,7 +108,6 @@ router
   })
   .get(function(req, res, next) {
     var url = req.headers.url;
-    console.log("url " + url);
 
     options = {
       host: "api.gfycat.com",
@@ -124,13 +123,11 @@ router
       http_res.on("data", function(chunk) {
         // append this chunk to our growing `data` var
         data += chunk;
-        //console.log(data);
       });
 
       // this event fires *one* time, after all the `data` events/chunks have been gathered
       http_res.on("end", function() {
         // you can use res.send instead of console.log to output via express
-        console.log(data.url); //probably undefined unless I do a json parse
         res.end(data); //If I do res.json, it doesn't work
       });
     });

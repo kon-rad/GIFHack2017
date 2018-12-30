@@ -1,83 +1,82 @@
-var q;
 var n = 4;
 var idCount = 0;
 var curTime = 0;
-var myVideo = document.getElementById("thevideo");
 var duration =
-  parseInt(curTime) - parseInt($("#startInput").val() > 15)
+  Number(curTime) - Number($("#startInput").val() > 15)
     ? 15
-    : parseInt(curTime) - parseInt($("#startInput").val());
-var isLooping = false;
-var start = $("#startInput").val(curTime);
-var theLoop; //global
+    : Number(curTime) - Number($("#startInput").val());
+var start = formatTimeHuman($("#startInput").val(curTime));
 var videoUrl; //the is the source of the raw video;"r---sn...."
 var yt_URL; //"youtube.com/..."
+var uploadloop;
 
 $(document).ready(function() {
   $("#gfy-range").defaultValue = 15;
   $("#gfy-range").on("change", function() {
-    duration = parseInt($("#gfy-range").val());
-    if (!isLooping) {
-      isLooping = true;
-      startLoop();
-    }
-    $("#stopInput").val(
-      parseInt($("#startInput").val()) + parseInt($("#gfy-range").val())
-    );
+    duration = Number($("#gfy-range").val());
+
+    let startTimeSeconds = formatTimeSeconds($("#startInput").val());
+    $("#stopInput").val(formatTimeHuman(startTimeSeconds + duration));
   });
 });
 
+/**
+ * Converts number of seconds to human readable format of HH:MM:SS
+ * @param {number} seconds number of seconds at current point in video
+ * @returns {string} human readable time
+ */
+function formatTimeHuman(seconds) {
+  let time = [0, 0, 0];
+  time[1] = Math.floor(seconds / 60);
+  time[2] = seconds - time[1] * 60;
+  time[0] = Math.floor(time[1] / 60);
+  time[1] = time[1] - time[0] * 60;
+
+  return time.map(t => (t === 0 ? "00" : t < 10 ? "0" + t : t)).join(":");
+}
+
+/**
+ * Converts time from human readable HH:MM:SS to seconds number
+ * @param {string} timeHuman HH:MM:SS
+ * @returns {number} seconds
+ */
+function formatTimeSeconds(timeHuman) {
+  let t = timeHuman.split(":").map(Number);
+  let m = t[0] * 60 + t[1];
+
+  return m * 60 + t[2];
+}
+
+/**
+ * Sets video url with newly created gif
+ * @param url
+ */
 function setVideoUrl(url) {
   videoUrl = url;
   $("#thevideo").attr("src", url);
 }
 
+/**
+ * Sets start time
+ * Called on button click
+ */
 function setStartTime() {
   curTime = Math.floor(document.getElementById("thevideo").currentTime);
-  $("#startInput").val(curTime);
-  start = curTime;
-  console.log(curTime, $("#startInput"), start);
-}
-
-function setEndTime() {
-  curTime = Math.floor(document.getElementById("thevideo").currentTime);
-  if (parseInt(curTime) - parseInt($("#startInput").val() > 15)) {
-    $("#stopInput").val(parseInt($("#startInput").val() + 15));
-  } else {
-    $("#stopInput").val(curTime);
-  }
-}
-
-function startLoop() {
-  theLoop = window.setInterval(function() {
-    if (document.getElementById("thevideo").currentTime > start + duration) {
-      document.getElementById("thevideo").currentTime = start;
-    }
-  }, 100);
-
-  return theLoop;
-}
-
-function stopLoop() {
-  clearInterval(theLoop);
+  $("#startInput").val(formatTimeHuman(curTime));
 }
 
 /**
- * Gets list of trending gfycat gifs
+ * Sets end time of video clip to be converted to gif
+ * Called on button click
  */
-function getTrending() {
-  var xhttp = new XMLHttpRequest();
-  var endpoint = "/trending";
-  xhttp.open("GET", endpoint);
-  xhttp.setRequestHeader("count", n);
-  n += 1;
-  xhttp.send();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState === 4 && xhttp.status === 200) {
-      q = JSON.parse(xhttp.responseText);
-      insertGif(q);
-    }
-  };
+function setEndTime() {
+  curTime = Number(Math.floor(document.getElementById("thevideo").currentTime));
+  let startTimeSeconds = formatTimeSeconds($("#startInput").val());
+  if (curTime - startTimeSeconds > 15) {
+    $("#stopInput").val(formatTimeHuman(startTimeSeconds + 15));
+  } else {
+    $("#stopInput").val(formatTimeHuman(curTime));
+  }
 }
 
 /**
@@ -92,8 +91,37 @@ function checkUploadStatus(gifName) {
   xhttp.send();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState === 4 && xhttp.status === 200) {
-      console.log("check status ready: ", xhttp.readyState);
       console.log(xhttp.status, JSON.parse(xhttp.responseText));
+      let responseObj = JSON.parse(xhttp.responseText);
+      if (responseObj.task === "complete") {
+        getGfy(responseObj.gfyname);
+        clearInterval(uploadloop);
+        console.log("completed: ", responseObj.gfyname);
+      }
+    }
+  };
+}
+
+/**
+ * Gets newly created gif from gfycat api and calls updateImage with new url
+ * @param {string} name
+ */
+function getGfy(name) {
+  const xhttp = new XMLHttpRequest();
+  const endpoint = "https://api.gfycat.com/v1test/gfycats/" + name;
+  xhttp.open("GET", endpoint, true);
+
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState === 4 && xhttp.status === 200) {
+      // gif is downloaded
+      let responseObj = JSON.parse(xhttp.responseText);
+      status = true;
+
+      // gif is displayed
+      updateImage(responseObj.gfyItem.webmUrl);
+      $("#" + name).remove();
+      console.log("removing gif with name: ", name);
     }
   };
 }
@@ -103,8 +131,8 @@ function checkUploadStatus(gifName) {
  */
 function createGfy() {
   const url = $("#video-url-input").val();
-  start = $("#startInput").val();
-  duration = $("#stopInput").val() - $("#startInput").val();
+  start = formatTimeSeconds($("#startInput").val());
+  duration = formatTimeSeconds($("#stopInput").val()) - start;
 
   const xhttp = new XMLHttpRequest();
   const endpoint = "/uploadurl";
@@ -117,24 +145,34 @@ function createGfy() {
     if (xhttp.readyState === 4 && xhttp.status === 200) {
       console.log(xhttp.readyState);
       console.log(xhttp.status);
-      q = JSON.parse(xhttp.responseText);
-      const gifName = q.gfyname;
+      const gifName = JSON.parse(xhttp.responseText).gfyname;
       status = false;
 
       // this loop checks too see if gif is ready to fetch from gfycat
-      // TODO: Make function that uses the check gfycat endpoint
-      // TODO: Create indication for user that Gif is being created
       uploadloop = setInterval(function() {
         checkUploadStatus(gifName);
-        console.log("checking");
+        console.log("checking, name: ", gifName);
       }, 3000);
+
+      $("#inprogress").append(
+        $(
+          '<h4 class="inprogress__note" id="' +
+            gifName +
+            '">Encoding Gif with temporary name "' +
+            gifName +
+            '"... (this will take a couple minutes)</h4>'
+        )
+      );
     }
   };
 }
 
-var uploadloop;
-
-function getYT(url) {
+/**
+ * Sends Get request to backend /videourl endpont with url, to be passed to gfycat api and sends back
+ * video url to display on video element
+ */
+function getYT() {
+  console.log("heres getYT ");
   url = $("#video-url-input").val();
   yt_URL = url;
   var xhttp = new XMLHttpRequest();
@@ -144,47 +182,39 @@ function getYT(url) {
   xhttp.send();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState === 4 && xhttp.status === 200) {
-      q = JSON.parse(xhttp.responseText);
-      var videoURL = q.url;
-      setVideoUrl(videoURL);
+      let responseObj = JSON.parse(xhttp.responseText);
+      setVideoUrl(responseObj.url);
     }
   };
 }
 
-// adds gif to display
+/**
+ * Creates video element with newly created gif url and adds to table
+ * @param {string} gifUrl
+ */
 function updateImage(gifUrl) {
-  const img = $(
-    '<video style="width: 700px;" id="gifsID + ' +
-      idCount +
-      '" loop="loop" autoplay="autoplay"/>'
-  ); //Equivalent: $(document.createElement('img'))
-  img.attr("src", gifUrl);
-
   const note = new NoteTemplate();
   cards.push(note);
   note.url = gifUrl;
   reflow();
 
   idCount++;
-  clearInterval(uploadloop);
 }
 
-// This function tries to download gif from gfycat when it is ready
-function getGfy(n) {
-  const xhttp = new XMLHttpRequest();
-  const endpoint = "https://api.gfycat.com/v1test/gfycats/" + n;
-  xhttp.open("GET", endpoint, true);
-
+/**
+ * Gets list of trending gfycat gifs
+ */
+function getTrending() {
+  var xhttp = new XMLHttpRequest();
+  var endpoint = "/trending";
+  xhttp.open("GET", endpoint);
+  xhttp.setRequestHeader("count", n);
+  n += 1;
   xhttp.send();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState === 4 && xhttp.status === 200) {
-      // gif is downloaded
-      q = JSON.parse(xhttp.responseText);
-      console.log(JSON.stringify(q));
-      status = true;
-
-      // gif is displayed
-      updateImage(q.gfyItem.webmUrl);
+      let responseObj = JSON.parse(xhttp.responseText);
+      insertGif(responseObj);
     }
   };
 }
@@ -197,7 +227,7 @@ function insertGif(gfy) {
   document.getElementById("column1").innerHTML = c1;
 }
 
-// Draggable Table Functions
+// ============================ Draggable Table Functions ============================ //
 var dragSrcEl = null;
 
 var cards = new Array();
