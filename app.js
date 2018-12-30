@@ -51,7 +51,6 @@ router
     gfycat
       .search(options)
       .then(data => {
-        console.log("gfycats", data);
         res.json(data);
       })
       .catch(err => {
@@ -93,7 +92,6 @@ router
     gfycat
       .trendingGifs({ count: count })
       .then(data => {
-        console.log("trending response: ", data.gfycats[count - 1].gifUrl);
         res.json(data.gfycats[count - 1]);
       })
       .catch(err => {
@@ -142,8 +140,6 @@ router
     var url = req.headers.url;
     var duration = req.headers.duration;
     var start = req.headers.start;
-    console.log("url " + url);
-    console.log(req.headers);
 
     //hardcoded for testing
     options = {
@@ -156,7 +152,6 @@ router
     gfycat
       .upload(options)
       .then(data => {
-        console.log("uploaded response: ", data);
         res.json(data);
       })
       .catch(err => {
@@ -171,12 +166,10 @@ router
   })
   .get(function(req, res, next) {
     var id = req.headers.id;
-    console.log("id " + id);
 
     gfycat
       .checkUploadStatus(id)
       .then(data => {
-        console.log("uploaded response: ", data);
         res.json(data);
       })
       .catch(err => {
@@ -191,12 +184,10 @@ router
   })
   .get(function(req, res, next) {
     var name = req.headers.name;
-    console.log("name:" + name);
 
     gfycat
       .getGyfcat(name)
       .then(data => {
-        console.log("get gfycat: ", data);
         res.json(data);
       })
       .catch(err => {

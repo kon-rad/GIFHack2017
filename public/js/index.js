@@ -91,12 +91,10 @@ function checkUploadStatus(gifName) {
   xhttp.send();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState === 4 && xhttp.status === 200) {
-      console.log(xhttp.status, JSON.parse(xhttp.responseText));
       let responseObj = JSON.parse(xhttp.responseText);
       if (responseObj.task === "complete") {
         getGfy(responseObj.gfyname);
         clearInterval(uploadloop);
-        console.log("completed: ", responseObj.gfyname);
       }
     }
   };
@@ -121,7 +119,6 @@ function getGfy(name) {
       // gif is displayed
       updateImage(responseObj.gfyItem.webmUrl);
       $("#" + name).remove();
-      console.log("removing gif with name: ", name);
     }
   };
 }
@@ -143,15 +140,12 @@ function createGfy() {
   xhttp.send();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState === 4 && xhttp.status === 200) {
-      console.log(xhttp.readyState);
-      console.log(xhttp.status);
       const gifName = JSON.parse(xhttp.responseText).gfyname;
       status = false;
 
       // this loop checks too see if gif is ready to fetch from gfycat
       uploadloop = setInterval(function() {
         checkUploadStatus(gifName);
-        console.log("checking, name: ", gifName);
       }, 3000);
 
       $("#inprogress").append(
@@ -172,7 +166,6 @@ function createGfy() {
  * video url to display on video element
  */
 function getYT() {
-  console.log("heres getYT ");
   url = $("#video-url-input").val();
   yt_URL = url;
   var xhttp = new XMLHttpRequest();
