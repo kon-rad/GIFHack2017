@@ -160,7 +160,7 @@ function createGfy() {
             gifName +
             '">Encoding Gif with temporary name "' +
             gifName +
-            '"... (this will take a couple minutes)</h4>'
+            '"... (this will take a couple minutes ⌛)</h4>'
         )
       );
     }
